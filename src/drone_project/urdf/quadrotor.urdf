@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<robot name="quadrotor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ========================================= -->
+  <!-- BASE LINK (Thân drone)                    -->
+  <!-- ========================================= -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.3 0.3 0.1"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <box size="0.3 0.3 0.1"/>
+      </geometry>
+    </collision>
+    
+    <inertial>
+      <mass value="1.5"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.02"/>
+    </inertial>
+  </link>
+
+  <!-- ========================================= -->
+  <!-- ROTOR LINKS (4 cánh quạt)                 -->
+  <!-- ========================================= -->
+  
+  <!-- Front Left Rotor -->
+  <link name="rotor_front_left">
+    <visual>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+    </collision>
+    
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  
+  <joint name="rotor_front_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rotor_front_left"/>
+    <origin xyz="0.15 0.15 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Front Right Rotor -->
+  <link name="rotor_front_right">
+    <visual>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+    </collision>
+    
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  
+  <joint name="rotor_front_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rotor_front_right"/>
+    <origin xyz="0.15 -0.15 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Rear Left Rotor -->
+  <link name="rotor_rear_left">
+    <visual>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+    </collision>
+    
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  
+  <joint name="rotor_rear_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rotor_rear_left"/>
+    <origin xyz="-0.15 0.15 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Rear Right Rotor -->
+  <link name="rotor_rear_right">
+    <visual>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder length="0.01" radius="0.1"/>
+      </geometry>
+    </collision>
+    
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  
+  <joint name="rotor_rear_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rotor_rear_right"/>
+    <origin xyz="-0.15 -0.15 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- ========================================= -->
+  <!-- GAZEBO PLUGINS                            -->
+  <!-- ========================================= -->
+  
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/quadrotor</robotNamespace>
+    </plugin>
+  </gazebo>
+  
+  <!-- Plugin cho bay lơ lửng đơn giản -->
+  <gazebo>
+    <plugin name="quadrotor_simple_controller" filename="libhector_gazebo_ros_baro.so">
+      <robotNamespace>quadrotor</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>
